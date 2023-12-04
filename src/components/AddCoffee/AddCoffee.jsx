@@ -1,24 +1,64 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 const AddCoffee = () => {
+  const handleAddCoffee = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const name = form.name.value;
+    const supplier = form.supplier.value;
+    const category = form.category.value;
+    const chef = form.chef.value;
+    const details = form.details.value;
+    const taste = form.taste.value;
+    const photo = form.photo.value;
 
-    const handleAddCoffee = (event)=>{
-      event.preventDefault()
-      
-    }
+    const newCoffee = { name, supplier, category, chef, details, taste, photo };
+    console.log(newCoffee);
+
+    //   Send data to server
+
+    fetch("http://localhost:3000/coffee", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newCoffee),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        form.reset()
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Success!",
+            text: "Coffee Added Successfully",
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
+        }
+        else{
+            Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            icon: 'error',
+            confirmButtonText: 'ok'
+         })
+        }
+      });
+  };
   return (
     <div className="w-[1100px] mx-auto">
       <div className="mt-12  mb-6">
-        <NavLink to={"/"}>
+        <Link to={"/"}>
           <button className="flex items-center gap-2">
             <span>
               <FaArrowLeft></FaArrowLeft>
             </span>
             <span>Back to Home</span>
           </button>
-
-        </NavLink>
+        </Link>
       </div>
       <div className=" p-8 mt-18  min-h-fit bg-[#F4F3F0] border">
         <div className="text-center mb-6">
@@ -40,6 +80,7 @@ const AddCoffee = () => {
                   </div>
                   <input
                     type="text"
+                    name="name"
                     placeholder="name"
                     className="input input-bordered w-[400px] "
                   />
@@ -52,6 +93,7 @@ const AddCoffee = () => {
                   </div>
                   <input
                     type="text"
+                    name="supplier"
                     placeholder="Enter Coffee Supplier"
                     className="input input-bordered w-[400px] "
                   />
@@ -64,6 +106,7 @@ const AddCoffee = () => {
                   </div>
                   <input
                     type="text"
+                    name="category"
                     placeholder="Enter Category Name"
                     className="input input-bordered w-[400px] "
                   />
@@ -79,6 +122,7 @@ const AddCoffee = () => {
                   </div>
                   <input
                     type="text"
+                    name="chef"
                     placeholder="Enter Coffee Chef"
                     className="input input-bordered w-[400px] "
                   />
@@ -91,6 +135,7 @@ const AddCoffee = () => {
                   </div>
                   <input
                     type="text"
+                    name="taste"
                     placeholder="Enter Coffee taste"
                     className="input input-bordered w-[400px] "
                   />
@@ -103,6 +148,7 @@ const AddCoffee = () => {
                   </div>
                   <input
                     type="text"
+                    name="details"
                     placeholder="Enter Details"
                     className="input input-bordered w-[400px] "
                   />
@@ -117,6 +163,7 @@ const AddCoffee = () => {
               </div>
               <input
                 type="text"
+                name="photo"
                 placeholder="Photo Url"
                 className="input ml-12 input-bordered w-11/12"
               />
