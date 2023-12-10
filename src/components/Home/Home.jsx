@@ -4,10 +4,11 @@ import Icon from "../Icon/Icon";
 import { BsCup } from "react-icons/bs";
 import Banner from "../Header/Banner/Banner";
 import CoffeeCard from "../CoffeeCard/CoffeeCard";
+import { useState } from "react";
 
 const Home = () => {
-  const coffees = useLoaderData();
-  console.log(coffees);
+  const loadedCoffees = useLoaderData();
+  const [coffees, setCoffees] = useState(loadedCoffees);
   return (
     <div>
       <Banner></Banner>
@@ -27,7 +28,12 @@ const Home = () => {
         </div>
         <div className=" mt-12 grid grid-cols-2 gap-6">
           {coffees.map((coffee) => (
-            <CoffeeCard key={coffee._id} coffee={coffee}></CoffeeCard>
+            <CoffeeCard
+              key={coffee._id}
+              coffee={coffee}
+              coffees={coffees}
+              setCoffees={setCoffees}
+            ></CoffeeCard>
           ))}
         </div>
       </div>
