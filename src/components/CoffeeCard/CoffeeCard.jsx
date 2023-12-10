@@ -9,8 +9,6 @@ import Swal from "sweetalert2";
 const CoffeeCard = ({ coffee }) => {
   const { _id, name, supplier, category, chef, details, taste, photo } = coffee;
 
-  const [coffeeCard, setCoffeeCard] = useState({});
-
   const handleDelete = (_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -28,7 +26,6 @@ const CoffeeCard = ({ coffee }) => {
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-            setCoffeeCard(data);
             if (data.deletedCounted > 0) {
               Swal.fire({
                 title: "Deleted!",
